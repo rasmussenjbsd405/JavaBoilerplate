@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="JavaBoilerplate" default="main">
+<project name="App" default="main">
 
     <property name="build.dir"         value="build" />
     <property name="classes.dir"       value="${build.dir}/classes" />
@@ -19,7 +19,7 @@
     <property name="check.results"     value="${reports.dir}/checkstyle_errors.xml" />
     <property name="test.results"      value="${reports.dir}/tests" />
 
-    <property name="main-class"        value="App" />
+    <property name="main-class"        value="${ant.project.name}" />
 
     <path id="classpath.test">
         <pathelement location="${lib.dir}/junit-4.11.jar" />
@@ -33,7 +33,7 @@
         <delete dir="${build.dir}" />
     </target>
 
-    <target name="compile" depends="clean">
+    <target name="compile">
         <mkdir dir="${main.build}" />
         <javac srcdir="${main.src}" destdir="${main.build}" includeantruntime="false"/>
     </target>
@@ -67,7 +67,7 @@
         </checkstyle>
     </target>
 
-    <target name="test" depends="clean, check, test-compile">
+    <target name="test" depends="test-compile">
         <mkdir dir="${test.results}" />
         <junit printsummary="yes"  haltonfailure="yes" haltonerror="yes"> 
             <classpath>
@@ -81,5 +81,5 @@
         </junit>
     </target>
 
-    <target name="main" depends="clean, run" />
+    <target name="main" depends="check, test, run" />
 </project>
